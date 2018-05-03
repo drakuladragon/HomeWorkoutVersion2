@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_weight="17"
+        android:id="@+id/rcv_comment_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_edit_text"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/img_send"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_menu_send"/>
+
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:background="@drawable/shape_comment_text"
+            android:layout_toLeftOf="@id/img_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

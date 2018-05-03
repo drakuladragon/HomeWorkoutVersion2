@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_timepicker"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <TimePicker
+            android:numbersSelectorColor="@android:color/holo_blue_dark"
+            android:headerBackground="@android:color/holo_blue_dark"
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/txt_next"
+            android:layout_below="@id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Next"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/txt_cancel_1"
+            android:layout_below="@id/timePicker"
+            android:layout_toLeftOf="@id/txt_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_repeat_day"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Monday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_monday"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Tuesday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cb_tuesday"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Wednesday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_wednesday"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Thursday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cb_thursday"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Friday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_friday"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Saturday"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:checked="true"
+            android:paddingLeft="48dp"
+            android:id="@+id/cb_sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_saturday"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Sunday"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_ok"
+            android:layout_below="@id/cb_sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Ok"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/txt_cancel_2"
+            android:layout_below="@id/cb_sunday"
+            android:layout_toLeftOf="@id/txt_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

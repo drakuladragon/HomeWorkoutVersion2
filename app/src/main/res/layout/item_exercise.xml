@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_ex_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Exercise Name"
+            android:textColor="@color/color_exercise_name"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/txt_ex_turn"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="x16"
+            android:textColor="@color/color_exercise_turn"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_ex_intro"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp" />
+
+    <View
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/img_ex_intro"
+        android:background="@color/color_seperator"/>
+
+
+</RelativeLayout>

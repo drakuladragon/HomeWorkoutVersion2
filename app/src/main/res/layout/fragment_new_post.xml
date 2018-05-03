@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:clickable="true">
+
+    <ImageView
+        android:src="@drawable/ic_add_ac"
+        android:scaleType="centerInside"
+        android:id="@+id/img_post_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_ligt_gray" />
+
+    <EditText
+        android:textSize="18sp"
+        android:id="@+id/edt_post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_post_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_edit_text"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="Title"
+        android:padding="16dp" />
+
+    <EditText
+        android:id="@+id/edt_post_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/edt_post_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:background="@drawable/shape_edit_text"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="Content"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/txt_post"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center"
+        android:text="POST"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

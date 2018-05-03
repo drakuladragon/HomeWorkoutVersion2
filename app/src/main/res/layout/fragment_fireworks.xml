@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_dark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You fire 13 kcal"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:id="@+id/txt_fire_kcal"/>
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/txt_fire_kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONGRATULATION"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/txt_kepp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Keep going on"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/txt_fire_kcal"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You already have a nice body :)"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/txt_kepp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/img_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/ic_goal_complete"/>
+
+</RelativeLayout>

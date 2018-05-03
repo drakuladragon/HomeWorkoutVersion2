@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_splash">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_bg" />
+
+    <TextView
+        android:id="@+id/txt_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:text="HOME WORKOUT"
+        android:textColor="@android:color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_edit_text"
+        android:hint="Email ..."
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/whiteTransparentHalf"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_email"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_edit_text"
+        android:hint="Password ..."
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/whiteTransparentHalf"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_login"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Login to Account"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_need_account"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Need a new account ?"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_alignParentBottom="true"/>
+
+    <ProgressBar
+        android:id="@+id/pgb_login"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:indeterminate="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?android:colorBackground"
+    android:clickable="true"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_doing_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/rl_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:id="@+id/txt_ex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="72dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Exercise"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img_help"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/img_video_link"
+                android:src="@drawable/ic_info" />
+
+            <ImageView
+                android:id="@+id/img_video_link"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_video_cam" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_intro"
+            android:layout_width="240dp"
+            android:layout_height="210dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/txt_ex_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/img_intro"
+            android:layout_centerHorizontal="true"
+            android:text="ABS"
+            android:textColor="@color/color_exercise_name"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_ex_turn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_intro"
+            android:layout_centerHorizontal="true"
+            android:text="x10"
+            android:textColor="@color/color_exercise_turn"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp">
+
+            <ImageView
+                android:id="@+id/img_pre"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_pre_exercise" />
+
+            <ImageView
+                android:id="@+id/img_done"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:src="@drawable/ic_goal_complete" />
+
+            <ImageView
+                android:id="@+id/img_next"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_exercise" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_short_break"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.example.nhtha.homeworkoutversion2.view.wiget.MyAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_marginTop="32dp"
+            android:id="@+id/txt_short_break"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:text="SHORT BREAK"
+            android:textSize="24sp" />
+
+        <ProgressBar
+            android:id="@+id/pgb_cooldown"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="32dp"
+            android:indeterminate="false"
+            android:max="30"
+            android:progress="20"
+            android:progressDrawable="@drawable/shape_timer_circuler"
+            android:rotation="90"
+            android:rotationX="180" />
+
+        <TextView
+            android:id="@+id/txt_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="20"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/txt_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pgb_cooldown"
+            android:layout_centerHorizontal="true"
+            android:text="SKIP"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

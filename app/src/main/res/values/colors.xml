@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="color_exercise_name">#454142</color>
+    <color name="color_exercise_turn">#c1c0c1</color>
+    <color name="color_app_bar">#333330</color>
+    <color name="color_app_text">#ded836</color>
+    <color name="color_seperator">#efb4b4a9</color>
+    <color name="color_action_bar">#333330</color>
+    <color name="color_main_background">#f0f0f0</color>
+    <color name="color_bottom_navigation_background">#015fec</color>
+    <color name="color_timer_circuler">#87898b</color>
+    <color name="color_help_text">#ffffff</color>
+    <color name="color_ligt_gray">#dcdcdc</color>
+    <color name="color_dark">#29324e</color>
+    <color name="color_fab">#0374ff</color>
+    <color name="color_blue">#03a7ff</color>
+    <color name="color_bg">#40ffffff</color>
+    <color name="whiteTransparentHalf">#80ffffff</color>
+    <color name="color_comment_text">#0400ff</color>
+</resources>
