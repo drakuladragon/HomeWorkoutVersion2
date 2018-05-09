@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
+import com.example.nhtha.homeworkoutversion2.dto.DataDto;
 import com.example.nhtha.homeworkoutversion2.dto.UserDto;
 import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by nhtha on 09-Mar-18.
@@ -34,7 +38,7 @@ public class CompleteExerciseFragment extends Fragment {
     private int kcal;
 
     FirebaseUser user;
-    DatabaseReference userDatabaseReference;
+    DatabaseReference dataDatabaseReference;
 
     @SuppressLint("ValidFragment")
     public CompleteExerciseFragment(int kcal) {
@@ -60,7 +64,7 @@ public class CompleteExerciseFragment extends Fragment {
 
     private void init() {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+        dataDatabaseReference = FirebaseDatabase.getInstance().getReference().child("data");
 
         txtFireKcal = getView().findViewById(R.id.txt_fire_kcal);
         imgComplete = getView().findViewById(R.id.img_complete);
@@ -76,7 +80,47 @@ public class CompleteExerciseFragment extends Fragment {
     }
 
     private void sendData() {
-        userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        dataDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                DatabaseReference databaseReference = dataDatabaseReference.push();
+                boolean checkExist = false;
+                if (dataSnapshot.getChildren().iterator().hasNext()) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        DataDto data = child.getValue(DataDto.class);
+
+                        if (data.getDate().equals(new SimpleDateFormat("MM/dd/yyyy").format(new Date()))) {
+                            DatabaseReference update = dataDatabaseReference.child(child.getKey()).child("kcal");
+
+                            data.setKcal(kcal + data.getKcal());
+
+                            update.setValue(kcal + data.getKcal());
+
+                            checkExist = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (checkExist == false) {
+                    DataDto data = new DataDto();
+                    data.setDate(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+                    data.setUserId(user.getUid());
+                    data.setKcal(kcal);
+                    databaseReference.setValue(data);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserDto userDto = dataSnapshot.getValue(UserDto.class);
@@ -87,7 +131,7 @@ public class CompleteExerciseFragment extends Fragment {
                 userDto.setKcal(calo);
                 userDto.setWorkout(workout);
 
-                userDatabaseReference.setValue(userDto);
+                databaseReference.setValue(userDto);
             }
 
             @Override
@@ -95,6 +139,7 @@ public class CompleteExerciseFragment extends Fragment {
 
             }
         });
+
 
     }
 
@@ -105,4 +150,5 @@ public class CompleteExerciseFragment extends Fragment {
     private void goToStartFragment() {
         ((StartActivity) getActivity()).showStartFragment();
     }
+
 }

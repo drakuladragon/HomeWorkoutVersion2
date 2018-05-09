@@ -33,7 +33,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
     private RealmResults<Remin> reminders;
     private Context context;
     private LayoutInflater inflater;
-    private OnDiscarIconCLick onDiscarIconCLick;
+    private reportCallBackView callBackView;
 
     public ReminderAdapter(Context context, RealmResults<Remin> reminders) {
         this.reminders = reminders;
@@ -52,7 +52,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
     }
 
     @Override
-    public void onBindViewHolder(ReminViewHolder holder, int position) {
+    public void onBindViewHolder(ReminViewHolder holder, final int position) {
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         final int min = ReminderPresenter.getMinute(reminders.get(position).getTime());
         final int hour = ReminderPresenter.getHour(reminders.get(position).getTime());
@@ -64,7 +64,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
         holder.imgDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onDiscarIconCLick.onDiscardIconClicked(id - 1);
+               callBackView.onDiscardIconClicked(id - 1);
             }
         });
         holder.swtRemind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -76,7 +76,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
                 PendingIntent pendingIntent = PendingIntent.getService(context, 1, myIntent, 0);
 
                 if (isChecked){
-
+                    Remin remin = reminders.get(position);
+                    remin.setChecked(Remin.CHECKED);
+                    callBackView.onSwitchStateChange(remin);
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     calendar.set(Calendar.MINUTE, min);
@@ -84,6 +86,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
 
                     alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                 } else {
+                    Remin remin = reminders.get(position);
+                    remin.setChecked(Remin.NOT_CHECKED);
+                    callBackView.onSwitchStateChange(remin);
                     alarmManager.cancel(pendingIntent);
                 }
 
@@ -99,8 +104,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
         return 0;
     }
 
-    public void setOnDiscarIconCLick(OnDiscarIconCLick onDiscarIconCLick) {
-        this.onDiscarIconCLick = onDiscarIconCLick;
+    public void setCallBackView(reportCallBackView callBackView) {
+        this.callBackView = callBackView;
     }
 
     class ReminViewHolder extends RecyclerView.ViewHolder {
@@ -119,7 +124,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
         }
     }
 
-    public interface OnDiscarIconCLick{
+    public interface reportCallBackView {
         void onDiscardIconClicked(int position);
+        void onSwitchStateChange(Remin remin);
     }
 }

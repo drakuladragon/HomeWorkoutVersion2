@@ -8,6 +8,8 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Remin extends RealmObject {
+    public static final int CHECKED = 1;
+    public static final int NOT_CHECKED = 0;
 
     @PrimaryKey
     private int id;

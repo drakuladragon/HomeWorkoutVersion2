@@ -22,7 +22,7 @@ import com.example.nhtha.homeworkoutversion2.view.dialog.RemiderDialog;
 
 import io.realm.RealmResults;
 
-public class ReminderFragment extends Fragment implements View.OnClickListener, RemiderDialog.OnRemiderDialogClick, ReminderAdapter.OnDiscarIconCLick {
+public class ReminderFragment extends Fragment implements View.OnClickListener, RemiderDialog.OnRemiderDialogClick, ReminderAdapter.reportCallBackView {
 
     private ReminderAdapter reminAdapter;
     private FloatingActionButton fabAddRemider;
@@ -62,7 +62,7 @@ public class ReminderFragment extends Fragment implements View.OnClickListener, 
         fabAddRemider = getView().findViewById(R.id.fab_add_reminder);
 
         reminAdapter = new ReminderAdapter(getContext(),remins);
-        reminAdapter.setOnDiscarIconCLick(this);
+        reminAdapter.setCallBackView(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -161,5 +161,10 @@ public class ReminderFragment extends Fragment implements View.OnClickListener, 
     public void onDiscardIconClicked(int position) {
         crud.delete(remins.get(position));
         reminAdapter.notifyDataSetChanged(remins);
+    }
+
+    @Override
+    public void onSwitchStateChange(Remin remin) {
+        crud.update(remin);
     }
 }
