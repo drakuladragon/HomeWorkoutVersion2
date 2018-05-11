@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.model.Remin;
-import com.example.nhtha.homeworkoutversion2.presenter.CRUD;
+import com.example.nhtha.homeworkoutversion2.presenter.db.CRUD;
 import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 import com.example.nhtha.homeworkoutversion2.view.adapter.ReminderAdapter;
 import com.example.nhtha.homeworkoutversion2.view.dialog.RemiderDialog;
@@ -61,7 +61,7 @@ public class ReminderFragment extends Fragment implements View.OnClickListener, 
         rcvReminder = getView().findViewById(R.id.rcv_reminder);
         fabAddRemider = getView().findViewById(R.id.fab_add_reminder);
 
-        reminAdapter = new ReminderAdapter(getContext(),remins);
+        reminAdapter = new ReminderAdapter(getContext(),remins,crud.getRealm());
         reminAdapter.setCallBackView(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -163,8 +163,4 @@ public class ReminderFragment extends Fragment implements View.OnClickListener, 
         reminAdapter.notifyDataSetChanged(remins);
     }
 
-    @Override
-    public void onSwitchStateChange(Remin remin) {
-        crud.update(remin);
-    }
 }

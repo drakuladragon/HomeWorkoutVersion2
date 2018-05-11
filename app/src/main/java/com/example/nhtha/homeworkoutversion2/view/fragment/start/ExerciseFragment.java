@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.nhtha.homeworkoutversion2.OnClick;
+import com.example.nhtha.homeworkoutversion2.callback.OnClick;
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.model.Movement;
 import com.example.nhtha.homeworkoutversion2.presenter.ExercisePresenter;

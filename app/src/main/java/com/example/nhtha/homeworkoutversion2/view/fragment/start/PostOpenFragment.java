@@ -18,8 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
+import com.example.nhtha.homeworkoutversion2.callback.ImageLoaderCallBack;
 import com.example.nhtha.homeworkoutversion2.dto.CommentDto;
 import com.example.nhtha.homeworkoutversion2.dto.PostDto;
+import com.example.nhtha.homeworkoutversion2.model.Comment;
+import com.example.nhtha.homeworkoutversion2.model.Post;
+import com.example.nhtha.homeworkoutversion2.presenter.ImageLoader;
 import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 import com.example.nhtha.homeworkoutversion2.view.adapter.CommentAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -40,9 +44,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 @SuppressLint("ValidFragment")
-public class PostOpenFragment extends Fragment implements View.OnClickListener {
+public class PostOpenFragment extends Fragment implements View.OnClickListener,ImageLoaderCallBack {
 
-    private String postID;
+    private Post post;
     private CircleImageView civAvatar;
     private TextView txtPostAuthorName;
     private TextView txtPostTitle;
@@ -50,16 +54,16 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
     private ImageView imgPostImage;
     private RelativeLayout rlEdit;
 
-    private DatabaseReference databaseReference;
     private DatabaseReference commentReference;
+    private ImageLoader imageLoader;
 
     private RecyclerView rcvComment;
     private CommentAdapter commentAdapter;
     private List<CommentDto> commentDtoList;
 
     @SuppressLint("ValidFragment")
-    public PostOpenFragment(String postID) {
-        this.postID = postID;
+    public PostOpenFragment(Post post) {
+        this.post = post;
     }
 
     @Override
@@ -81,7 +85,7 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("post").child(String.valueOf(postID));
+
         commentReference = FirebaseDatabase.getInstance().getReference().child("comment");
         civAvatar = getView().findViewById(R.id.civ_avatar);
         txtPostAuthorName = getView().findViewById(R.id.txt_post_author_name);
@@ -89,8 +93,9 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
         txtPostContent = getView().findViewById(R.id.txt_post_content);
         imgPostImage = getView().findViewById(R.id.img_post_image);
         rlEdit = getView().findViewById(R.id.rl_edit);
-
         rcvComment = getView().findViewById(R.id.rcv_comment_list);
+
+        imageLoader = new ImageLoader(getContext(),post.getImageURL(),this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -99,7 +104,7 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
 
         pullData();
 
-        commentAdapter = new CommentAdapter(getContext(), commentDtoList);
+        commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>());
 
         rcvComment.setAdapter(commentAdapter);
 
@@ -109,92 +114,32 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
     }
 
     private void pullData() {
-        if (postID.isEmpty()) {
+        if (post == null) {
             return;
         }
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                PostDto postDto = dataSnapshot.getValue(PostDto.class);
+        String authorName = post.getUserName();
+        String postTitle = post.getTitle();
+        String postContent = post.getContent();
+        String avatarUri = post.getUserAvatar();
 
-                String authorName = postDto.getUserName();
-                String postTitle = postDto.getTitle();
-                String postContent = postDto.getContent();
-                String avatarUri = postDto.getUserAvatar();
+        txtPostAuthorName.setText(authorName);
+        txtPostTitle.setText(postTitle);
+        txtPostContent.setText(postContent);
 
-                txtPostAuthorName.setText(authorName);
-                txtPostTitle.setText(postTitle);
-                txtPostContent.setText(postContent);
+        Picasso.with(getContext()).load(avatarUri).into(civAvatar);
 
-                Picasso.with(getContext()).load(avatarUri).into(civAvatar);
+        String postImageUri = "";
+        postImageUri += post.getImageURL();
+        Log.d("get post data", "onDataChange: " + postImageUri);
 
-                String postImageUri = "";
-                postImageUri += postDto.getImageURL();
-                Log.d("get post data", "onDataChange: " + postImageUri);
-
-//                if (postImageUri == null) {
-//                    Log.d("EQUALS", "onDataChange: ádfsadfasfsadfasdf");
-//                    imgPostImage.setVisibility(View.GONE);
-//                } else {
-//                    Log.d("EQUALS", "onDataChange: " + postImageUri);
-//                    Picasso.with(getContext()).load(postImageUri).into(imgPostImage);
-//                }
-
-                Picasso.with(getContext()).load(postImageUri).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        imgPostImage.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        imgPostImage.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
-
-                //   Glide.with(getContext()).load(postImageUri).into(imgPostImage);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        commentReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                commentDtoList.clear();
-                for (DataSnapshot commentSnapShot : dataSnapshot.getChildren()) {
-                    CommentDto commentDto = commentSnapShot.getValue(CommentDto.class);
-
-                    if (commentDto.getPostID().trim().equals(postID)) {
-                        commentDtoList.add(commentDto);
-                    }
-                }
-
-                commentAdapter.notifiDataChanged(commentDtoList);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("DatabaseError", "onCancelled: " + databaseError);
-            }
-        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_edit:
-                ((StartActivity) getActivity()).showAddCommentFragment(postID);
+                ((StartActivity) getActivity()).showAddCommentFragment(post.getPostID());
                 break;
 
             default:
@@ -203,8 +148,19 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener {
     }
 
     public void notifyDataChanged() {
-        if (commentDtoList != null) {
-            commentAdapter.notifiDataChanged(commentDtoList);
-        }
+//        if (commentDtoList != null) {
+//            commentAdapter.notifiDataChanged(commentDtoList);
+//        }
+    }
+
+    @Override
+    public void onLoadSucces(Bitmap bitmap) {
+        imgPostImage.setVisibility(View.VISIBLE);
+        imgPostImage.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void onFail() {
+        imgPostImage.setVisibility(View.GONE);
     }
 }

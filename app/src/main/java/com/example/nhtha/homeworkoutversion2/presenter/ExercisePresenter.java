@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.nhtha.homeworkoutversion2.model.Movement;
+import com.example.nhtha.homeworkoutversion2.presenter.db.DatabasePresenter;
 
 import java.io.File;
 import java.io.InputStream;

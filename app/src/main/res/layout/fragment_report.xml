@@ -86,7 +86,7 @@
 
                 <TextView
                     android:paddingBottom="8dp"
-                    android:id="@+id/txt_work_times"
+                    android:id="@+id/txt_bmi_notify"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -140,6 +140,7 @@
                 android:background="@android:color/darker_gray"/>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -147,7 +148,8 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:width="100dp"
                     android:text="Height:"
@@ -156,13 +158,24 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:layout_weight="2"
+                    android:inputType="number"
                     android:id="@+id/edt_height"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:hint="cm"
                     android:textSize="20sp"
                     android:background="@drawable/shape_edt_blank"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="cm"
+                    android:gravity="center"
+                    android:textSize="20sp"/>
+
 
             </LinearLayout>
 
@@ -174,7 +187,8 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:width="100dp"
                     android:text="Weight:"
@@ -183,14 +197,23 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/edt_weight"
-                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:hint="kg"
                     android:textSize="20sp"
                     android:background="@drawable/shape_edt_blank"/>
 
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="kg"
+                    android:gravity="center"
+                    android:textSize="20sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -201,7 +224,8 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:width="100dp"
                     android:text="BMI:"
@@ -211,12 +235,20 @@
 
                 <TextView
                     android:id="@+id/tv_bmi"
-                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="kg/m2"
                     android:textSize="20sp" />
 
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="kg/m2"
+                    android:gravity="center"
+                    android:textSize="20sp"/>
             </LinearLayout>
 
             <Button

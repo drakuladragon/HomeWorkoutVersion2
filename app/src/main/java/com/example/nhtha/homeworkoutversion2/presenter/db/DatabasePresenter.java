@@ -1,4 +1,4 @@
-package com.example.nhtha.homeworkoutversion2.presenter;
+package com.example.nhtha.homeworkoutversion2.presenter.db;
 
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -1,4 +1,4 @@
-package com.example.nhtha.homeworkoutversion2.presenter;
+package com.example.nhtha.homeworkoutversion2.presenter.db;
 
 import android.content.Context;
 
@@ -40,15 +40,22 @@ public class CRUD {
         realm.commitTransaction();
     }
 
-    public void update(Remin remin) {
-        realm.beginTransaction();
-        realm.insertOrUpdate(remin);
-        realm.commitTransaction();
+    public void update(final Remin remin) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(remin);
+            }
+        });
     }
 
     public void delete(Remin remin) {
         realm.beginTransaction();
         remin.deleteFromRealm();
         realm.commitTransaction();
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 }

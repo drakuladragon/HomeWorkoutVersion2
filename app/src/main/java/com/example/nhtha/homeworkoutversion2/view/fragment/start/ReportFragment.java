@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.dto.DataDto;
 import com.example.nhtha.homeworkoutversion2.dto.UserDto;
 import com.example.nhtha.homeworkoutversion2.model.Data;
+import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -57,7 +59,9 @@ public class ReportFragment extends Fragment {
     private EditText edtWeight;
     private TextView tvKcal;
     private TextView tvBMI;
+    private TextView txtBMINotify;
     private Button btnSave;
+    private ImageView imgMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class ReportFragment extends Fragment {
         edtHeight = getView().findViewById(R.id.edt_height);
         edtWeight = getView().findViewById(R.id.edt_weight);
         tvBMI = getView().findViewById(R.id.tv_bmi);
+        txtBMINotify = getView().findViewById(R.id.txt_bmi_notify);
         btnSave = getView().findViewById(R.id.btn_save);
         tvKcal = getView().findViewById(R.id.tv_kcal);
 
@@ -94,8 +99,21 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveData();
+                showBMI();
             }
         });
+    }
+
+    private void showBMI() {
+        String weight = edtWeight.getText().toString().trim();
+        String height = edtHeight.getText().toString().trim();
+        if(!TextUtils.isEmpty(weight) && !TextUtils.isEmpty(height)) {
+            float bmi = calculateBMI(Float.parseFloat(height), Float.parseFloat(weight));
+            String value = String.valueOf(bmi);
+            int i = value.indexOf(".");
+            tvBMI.setText(value.substring(0, i + 2));
+            txtBMINotify.setText(checkBMI(bmi));
+        } 
     }
 
 
@@ -164,7 +182,14 @@ public class ReportFragment extends Fragment {
 
         YAxis rightAxis = lineChart.getAxisRight();
         rightAxis.setEnabled(false);
-        ;
+        imgMenu = getView().findViewById(R.id.img_menu);
+
+        imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((StartActivity) getActivity()).openDrawer();
+            }
+        });
     }
 
     private void setData() {
@@ -296,6 +321,12 @@ public class ReportFragment extends Fragment {
                 if (!TextUtils.isEmpty(weight) && !TextUtils.isEmpty(height)) {
                     edtHeight.setText(height);
                     edtWeight.setText(weight);
+                    float bmi = calculateBMI(Float.parseFloat(height), Float.parseFloat(weight));
+                    String value = String.valueOf(bmi);
+                    int i = value.indexOf(".");
+                    tvBMI.setText(value.substring(0,i+2));
+                    txtBMINotify.setText(checkBMI(bmi));
+
                 }
             }
 
@@ -327,5 +358,24 @@ public class ReportFragment extends Fragment {
         });
     }
 
+    private float calculateBMI(float high, float weight) {
+        if (weight <= 0 || high <= 0) return 0;
+        float bmi;
+        float a = high / 100;
+        bmi = weight / (a * a);
+        return bmi;
+    }
 
+    private String checkBMI(float bmi) {
+        if (bmi <= 0)
+            return "";
+        else if (0.0f < bmi && bmi < 18.5f)
+            return "Underweight";
+        else if (18.5f <= bmi && bmi < 25.0f)
+            return "Normal";
+        else if (25.0f <= bmi && bmi < 30.0f)
+            return "Overweight";
+        else
+            return "Too Fat";
+    }
 }

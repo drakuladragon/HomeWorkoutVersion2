@@ -18,10 +18,12 @@ import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.model.Movement;
+import com.example.nhtha.homeworkoutversion2.model.Post;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.CommentFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.CompleteExerciseFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.DoingExerciseFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.ExerciseFragment;
+import com.example.nhtha.homeworkoutversion2.view.fragment.start.HomePageFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.PostFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.PostOpenFragment;
 import com.example.nhtha.homeworkoutversion2.view.fragment.start.ReminderFragment;
@@ -58,6 +60,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private PostOpenFragment postOpenFragment;
     private CommentFragment commentFragment;
     private CompleteExerciseFragment completeExerciseFragment;
+    private HomePageFragment homePageFragment;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -106,6 +109,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         reportFragment = new ReportFragment();
         postFragment = new PostFragment();
         settingFragment = new SettingFragment();
+        homePageFragment = new HomePageFragment();
 
         showStartFragment();
         setUserData();
@@ -221,9 +225,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 .commit();
     }
 
-    public void showPostOpenFragment(String postID){
+    public void showPostOpenFragment(Post post){
         lockDrawer();
-        postOpenFragment = new PostOpenFragment(postID);
+        postOpenFragment = new PostOpenFragment(post);
         postOpenFragment.notifyDataChanged();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -251,6 +255,15 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.exit_slide_out,R.anim.enter_slide_up)
                 .replace(R.id.content_frame, completeExerciseFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showHomePageFragment(){
+        unlockDrawer();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, homePageFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -294,7 +307,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case R.id.nav_plan:
                 showStartFragment();
@@ -325,9 +337,15 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
 
+            case R.id.nav_home:
+                showHomePageFragment();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+                break;
+
             default:
                 break;
         }
+        item.setCheckable(true);
 
         return true;
     }

@@ -70,7 +70,6 @@ public class NotifiService extends Service {
                         .setAutoCancel(true)
                         .setShowWhen(false)
                         .setSmallIcon(android.R.drawable.ic_media_play)
-                        .setContentTitle("Home Workout")
                         .setContentText("Try Hard ???")
                         .addAction(android.R.drawable.ic_media_play, "Open App", pendingPlayIntent)
                         .addAction(android.R.drawable.ic_menu_delete, "Close", pendingStopIntent)

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148710350089",
+    "firebase_url": "https://homeworkoutversion2.firebaseio.com",
+    "project_id": "homeworkoutversion2",
+    "storage_bucket": "homeworkoutversion2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148710350089:android:1f796c64210f99cf",
+        "android_client_info": {
+          "package_name": "com.example.nhtha.homeworkoutversion2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148710350089-78hbngd5o0cn3drahlp5ftmgcd1up2qg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nhtha.homeworkoutversion2",
+            "certificate_hash": "d0bfaa6ee6555e7bc5fad701bef8440afbcc70a3"
+          }
+        },
+        {
+          "client_id": "148710350089-2ajol0rl6j30pdj6ncc624fpqjl25gtc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL9CYMQsPAhy8MBtX4wgYuK5g8gi3SNE0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148710350089-2ajol0rl6j30pdj6ncc624fpqjl25gtc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,10 @@
-package com.example.nhtha.homeworkoutversion2.presenter;
+package com.example.nhtha.homeworkoutversion2.presenter.utils;
 
 /**
  * Created by nhtha on 04-Mar-18.
  */
 
-public class ReminderPresenter {
+public class ReminderUtils {
 
     public static boolean getChecked(int checked){
         if (checked != 0){

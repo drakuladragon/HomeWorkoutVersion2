@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.dto.CommentDto;
+import com.example.nhtha.homeworkoutversion2.model.Comment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,11 +24,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private Context context;
-    private List<CommentDto> commentDtoList;
+    private List<Comment> commentList;
 
-    public CommentAdapter(Context context, List<CommentDto> commentDtoList) {
+    public CommentAdapter(Context context, List<Comment> commentList) {
         this.context = context;
-        this.commentDtoList = commentDtoList;
+        this.commentList = commentList;
     }
 
     @NonNull
@@ -39,17 +40,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CommentDto commentDto = commentDtoList.get(position);
+        Comment comment = commentList.get(position);
 
-        holder.setCivAvatar(context, commentDto.getAuthorAvatar());
-        holder.setTxtAuthorName(commentDto.getAuthorName());
-        holder.setTxtCommentDes(commentDto.getCommentDes());
+        holder.setCivAvatar(context, comment.getAuthorAvatar());
+        holder.setTxtAuthorName(comment.getAuthorName());
+        holder.setTxtCommentDes(comment.getCommentDes());
     }
 
     @Override
     public int getItemCount() {
-        if (commentDtoList != null) {
-            return commentDtoList.size();
+        if (commentList != null) {
+            return commentList.size();
         }
 
         return 0;
@@ -81,9 +82,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
     }
 
-    public void notifiDataChanged(List<CommentDto> commentDtoList) {
-        this.commentDtoList = commentDtoList;
+    public void notifiDataChanged(List<Comment> commentList) {
+        this.commentList = commentList;
         notifyDataSetChanged();
     }
+
+    public void notifiDataChanged(Comment comment) {
+        this.commentList.add(comment);
+        notifyDataSetChanged();
+    }
+
+
 
 }

@@ -93,8 +93,6 @@ public class CompleteExerciseFragment extends Fragment {
                         if (data.getDate().equals(new SimpleDateFormat("MM/dd/yyyy").format(new Date()))) {
                             DatabaseReference update = dataDatabaseReference.child(child.getKey()).child("kcal");
 
-                            data.setKcal(kcal + data.getKcal());
-
                             update.setValue(kcal + data.getKcal());
 
                             checkExist = true;

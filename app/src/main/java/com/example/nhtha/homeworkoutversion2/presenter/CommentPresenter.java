@@ -2,11 +2,15 @@ package com.example.nhtha.homeworkoutversion2.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.example.nhtha.homeworkoutversion2.callback.CommentCallBackView;
 import com.example.nhtha.homeworkoutversion2.dto.CommentDto;
 import com.example.nhtha.homeworkoutversion2.dto.UserDto;
+import com.example.nhtha.homeworkoutversion2.model.Comment;
+import com.example.nhtha.homeworkoutversion2.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,16 +27,24 @@ import java.util.List;
 public class CommentPresenter {
 
     private Context context;
-    private DatabaseReference databaseReference;
+    private DatabaseReference commentReference;
     private DatabaseReference userDatabaseReference;
     private List<CommentDto> commentDtoList;
     private ProgressDialog progressDialog;
+    private CommentCallBackView callBackView;
+    private List<Comment> comments;
+    private List<User> userList;
+    private FirebaseUser user;
+
 
     public CommentPresenter(Context context) {
         this.context = context;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("comment");
+        commentReference = FirebaseDatabase.getInstance().getReference().child("comment");
         userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+        user = FirebaseAuth.getInstance().getCurrentUser();
         commentDtoList = new ArrayList<>();
+        comments = new ArrayList<>();
+        userList = new ArrayList<>();
     }
 
     public void addComment(final String commentDes, final String authorID, final String postID) {
@@ -43,23 +55,36 @@ public class CommentPresenter {
         userDatabaseReference.child(authorID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserDto userDto = dataSnapshot.getValue(UserDto.class);
-
-                String authorName = userDto.getName();
-                String authorAvatar = userDto.getAvatar();
-
                 CommentDto commentDto = new CommentDto();
 
-                commentDto.setAuthorAvatar(authorAvatar);
                 commentDto.setAuthorID(authorID);
                 commentDto.setPostID(postID);
                 commentDto.setCommentDes(commentDes);
-                commentDto.setAuthorName(authorName);
 
-                DatabaseReference addCommentReference = databaseReference.push();
+                DatabaseReference addCommentReference = commentReference.push();
                 addCommentReference.setValue(commentDto);
 
                 progressDialog.dismiss();
+
+                final Comment comment = new Comment();
+                comment.setAuthorID(authorID);
+                comment.setPostID(postID);
+                comment.setCommentDes(commentDes);
+                DatabaseReference currUser = userDatabaseReference.child(user.getUid());
+                currUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        UserDto userDto = dataSnapshot.getValue(UserDto.class);
+                        comment.setAuthorAvatar(userDto.getAvatar());
+                        comment.setAuthorName(userDto.getName());
+                        callBackView.onPushCommentSuccess(comment);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
 
@@ -72,21 +97,19 @@ public class CommentPresenter {
 
     }
 
-    public List<CommentDto> getCommentList(final String postID) {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+    public void loadCommentList(){
+        userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot commentSnapShot : dataSnapshot.getChildren()) {
-                    CommentDto commentDto = commentSnapShot.getValue(CommentDto.class);
-                    if (commentDto.getPostID().trim().equals(postID)) {
-                        Log.d("COMMENTDTOID", "onDataChange: " + commentDto.getPostID());
-                        Log.d("POSTID", "onDataChange: " + postID);
-                        commentDtoList.add(commentDto);
-                        Log.d("LISTSIZE", "onDataChange: " + commentDtoList.size());
-                    }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    UserDto userDto = snapshot.getValue(UserDto.class);
+                    User user = new User();
+                    user.setId(snapshot.getKey());
+                    user.setName(userDto.getName());
+                    user.setAvatar(userDto.getAvatar());
+                    userList.add(user);
+                    loadCommentDtos();
                 }
-
             }
 
             @Override
@@ -94,9 +117,40 @@ public class CommentPresenter {
 
             }
         });
-
-        Log.d("SIZE", "getCommentList: " + commentDtoList.size());
-        return commentDtoList;
     }
 
+    private void loadCommentDtos(){
+        commentReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    CommentDto commentDto = snapshot.getValue(CommentDto.class);
+                    Comment comment = new Comment();
+                    comment.setAuthorID(commentDto.getAuthorID());
+                    comment.setCommentID(snapshot.getKey());
+                    comment.setCommentDes(commentDto.getCommentDes());
+                    comment.setPostID(commentDto.getPostID());
+                    for (User user : userList){
+                        if (comment.getAuthorID().equals(user.getId())){
+                            comment.setAuthorAvatar(user.getAvatar());
+                            comment.setAuthorName(user.getName());
+                            break;
+                        }
+                    }
+                    comments.add(comment);
+                    callBackView.onLoadSuccess(comments);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    public void setCallBackView(CommentCallBackView callBackView) {
+        this.callBackView = callBackView;
+    }
 }

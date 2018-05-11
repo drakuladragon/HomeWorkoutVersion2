@@ -81,34 +81,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 />
-
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/img_ex_intro"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@color/color_seperator" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reply"
-                android:textSize="18sp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_comment_list"
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
-
-            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

@@ -172,8 +172,6 @@ public class PostFragment extends Fragment implements View.OnClickListener {
                                 postDto.setImageURL(downloadUri.toString());
                                 postDto.setContent(content);
                                 postDto.setTitle(title);
-                                postDto.setUserName(dataSnapshot.child("name").getValue().toString());
-                                postDto.setUserAvatar(dataSnapshot.child("avatar").getValue().toString());
 
                                 newPost.setValue(postDto);
                             }
@@ -210,8 +208,6 @@ public class PostFragment extends Fragment implements View.OnClickListener {
                     postDto.setAuthorId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     postDto.setContent(content);
                     postDto.setTitle(title);
-                    postDto.setUserName(dataSnapshot.child("name").getValue().toString());
-                    postDto.setUserAvatar(dataSnapshot.child("avatar").getValue().toString());
 
                     newPost.setValue(postDto);
                 }

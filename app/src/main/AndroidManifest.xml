@@ -2,6 +2,8 @@
     package="com.example.nhtha.homeworkoutversion2">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".view.activity.LoginActivity"
+            android:largeHeap="true"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppTheme.MyNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

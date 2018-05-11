@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.dto.PostDto;
+import com.example.nhtha.homeworkoutversion2.model.Post;
 
 import java.util.List;
 
@@ -19,14 +20,14 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    private List<PostDto> postDtoList;
+    private List<Post> postList;
     private Context context;
     private OnPostItemClickListener onPostItemClickListener;
     private View view;
 
-    public PostAdapter(Context context, List<PostDto> postDtoList) {
+    public PostAdapter(Context context, List<Post> postList) {
         this.context = context;
-        this.postDtoList = postDtoList;
+        this.postList = postList;
     }
 
     @NonNull
@@ -40,9 +41,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        PostDto postDto = postDtoList.get(position);
-        holder.setTxtPostTitle(postDto.getTitle());
-        holder.setTxtPostUsername(postDto.getUserName());
+        Post post = postList.get(position);
+        holder.setTxtPostTitle(post.getTitle());
+        holder.setTxtPostUsername(post.getUserName());
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,15 +53,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     }
 
-    public void notifyDataChanged(List<PostDto> postDtos) {
-        this.postDtoList = postDtos;
+    public void notifyDataChanged(List<Post> postList) {
+        this.postList = postList;
         notifyDataSetChanged();
+    }
+
+    public Post getItem(int position){
+        return postList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        if (postDtoList != null) {
-            return postDtoList.size();
+        if (postList != null) {
+            return postList.size();
         }
         return 0;
     }

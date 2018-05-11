@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TabHost;
 
 import com.example.nhtha.homeworkoutversion2.R;
-import com.example.nhtha.homeworkoutversion2.dto.PostDto;
+import com.example.nhtha.homeworkoutversion2.callback.PostCallBackVIew;
+import com.example.nhtha.homeworkoutversion2.model.Post;
+import com.example.nhtha.homeworkoutversion2.presenter.PostPresenter;
 import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 import com.example.nhtha.homeworkoutversion2.view.adapter.PostAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,25 +27,18 @@ import java.util.List;
  * Created by nhtha on 26-Feb-18.
  */
 
-public class WallFragment extends Fragment implements View.OnClickListener,PostAdapter.OnPostItemClickListener {
-
-    private TabHost tbhWall;
-    private TabHost.TabSpec tabReview;
-    private TabHost.TabSpec tabPost;
+public class WallFragment extends Fragment implements View.OnClickListener,PostAdapter.OnPostItemClickListener,PostCallBackVIew {
 
     private FloatingActionButton floatingActionButton;
 
     private PostAdapter postAdapter;
     private RecyclerView rcvPost;
-    private List<PostDto> postDtoList;
     private List<String> postDtoID;
 
     private ProgressBar progressBar;
 
-    private DatabaseReference postReference;
-    private FirebaseDatabase firebaseDatabase;
-
     private ImageView imgMenu;
+    private PostPresenter postPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,33 +63,16 @@ public class WallFragment extends Fragment implements View.OnClickListener,PostA
     }
 
     private void init() {
-        postDtoList = new ArrayList<>();
-        postDtoID = new ArrayList<>();
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        postReference = firebaseDatabase.getReference().child("post");
-
         floatingActionButton = getView().findViewById(R.id.fab_add_post);
         progressBar = getView().findViewById(R.id.pgb_loading);
-//        tbhWall = getView().findViewById(R.id.tbh_wall);
-//        tbhWall.setup();
-//
-//        tabReview = tbhWall.newTabSpec("tab1");
-//        tabReview.setIndicator("Review");
-//        tabReview.setContent(R.id.tab1);
-//        tbhWall.addTab(tabReview);
-//
-//        tabPost = tbhWall.newTabSpec("tab2");
-//        tabPost.setIndicator("Post");
-//        tabPost.setContent(R.id.tab2);
-//        tbhWall.addTab(tabPost);
 
+        postPresenter = new PostPresenter(progressBar);
+        postPresenter.setPostListView(this);
+        postDtoID = new ArrayList<>();
 
         floatingActionButton.setOnClickListener(this);
 
-        pullList();
-
-        postAdapter = new PostAdapter(getContext(), postDtoList);
+        postAdapter = new PostAdapter(getContext(), new ArrayList<Post>());
         postAdapter.setOnPostItemClickListener(this);
 
         rcvPost = getView().findViewById(R.id.rcv_post);
@@ -115,33 +87,6 @@ public class WallFragment extends Fragment implements View.OnClickListener,PostA
             @Override
             public void onClick(View v) {
                 ((StartActivity) getActivity()).openDrawer();
-            }
-        });
-
-    }
-
-    private void pullList() {
-        progressBar.setVisibility(View.VISIBLE);
-        postReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                postDtoList.clear();
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PostDto postDto = snapshot.getValue(PostDto.class);
-                    postDtoList.add(postDto);
-                    postDtoID.add(snapshot.getKey());
-                }
-
-                postAdapter.notifyDataChanged(postDtoList);
-
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("ONCANCELD", "onCancelled: " + databaseError.getMessage());
             }
         });
 
@@ -162,7 +107,13 @@ public class WallFragment extends Fragment implements View.OnClickListener,PostA
     @Override
     public void onItemClick(int position) {
 
-        ((StartActivity) getActivity()).showPostOpenFragment(postDtoID.get(position));
+        ((StartActivity) getActivity()).showPostOpenFragment(postAdapter.getItem(position));
 
+    }
+
+    @Override
+    public void onLoadSucces(List<Post> postList) {
+        postAdapter.notifyDataChanged(postList);
+        progressBar.setVisibility(View.GONE);
     }
 }

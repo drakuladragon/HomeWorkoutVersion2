@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.nhtha.homeworkoutversion2.R;
+import com.example.nhtha.homeworkoutversion2.callback.CommentCallBackView;
 import com.example.nhtha.homeworkoutversion2.dto.CommentDto;
+import com.example.nhtha.homeworkoutversion2.model.Comment;
 import com.example.nhtha.homeworkoutversion2.presenter.CommentPresenter;
 import com.example.nhtha.homeworkoutversion2.presenter.UserPresenter;
 import com.example.nhtha.homeworkoutversion2.view.adapter.CommentAdapter;
@@ -33,17 +35,17 @@ import java.util.List;
  */
 
 @SuppressLint("ValidFragment")
-public class CommentFragment extends Fragment implements View.OnClickListener {
+public class CommentFragment extends Fragment implements View.OnClickListener,CommentCallBackView {
 
     private EditText edtComment;
     private ImageView imgSend;
 
     private CommentAdapter commentAdapter;
     private RecyclerView rcvComment;
-    private List<CommentDto> commentDtoList;
     private CommentPresenter commentPresenter;
 
     private DatabaseReference commentReference;
+    private List<Comment> commentList;
 
     private String postID;
 
@@ -55,7 +57,7 @@ public class CommentFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        commentDtoList = new ArrayList<>();
+        commentList = new ArrayList<>();
     }
 
     @Nullable
@@ -74,51 +76,24 @@ public class CommentFragment extends Fragment implements View.OnClickListener {
         commentReference = FirebaseDatabase.getInstance().getReference().child("comment");
 
         commentPresenter = new CommentPresenter(getContext());
+        commentPresenter.setCallBackView(this);
 
         rcvComment = getView().findViewById(R.id.rcv_comment_list);
         edtComment = getView().findViewById(R.id.edt_comment);
         imgSend = getView().findViewById(R.id.img_send);
 
+        commentPresenter.loadCommentList();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rcvComment.setLayoutManager(layoutManager);
 
-
-        pullData();
-
-        commentAdapter = new CommentAdapter(getContext(), commentDtoList);
+        commentAdapter = new CommentAdapter(getContext(), commentList);
         rcvComment.setAdapter(commentAdapter);
 
         imgSend.setOnClickListener(this);
         edtComment.setSelected(true);
 
-
-    }
-
-    private void pullData() {
-
-        commentReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                commentDtoList.clear();
-
-                for (DataSnapshot commentSnapShot : dataSnapshot.getChildren()) {
-                    CommentDto commentDto = commentSnapShot.getValue(CommentDto.class);
-                    if (commentDto.getPostID().trim().equals(postID)) {
-                        commentDtoList.add(commentDto);
-                    }
-                }
-
-                commentAdapter.notifiDataChanged(commentDtoList);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
@@ -141,11 +116,20 @@ public class CommentFragment extends Fragment implements View.OnClickListener {
             String authorID = UserPresenter.getUserID();
 
             commentPresenter.addComment(commentDes, authorID, postID);
-            commentAdapter.notifiDataChanged(commentDtoList);
 
         }
         edtComment.setText("");
         edtComment.setSelected(false);
     }
 
+    @Override
+    public void onLoadSuccess(List<Comment> commentList) {
+        this.commentList.addAll(commentList);
+        commentAdapter.notifiDataChanged(commentList);
+    }
+
+    @Override
+    public void onPushCommentSuccess(Comment comment) {
+        commentAdapter.notifiDataChanged(comment);
+    }
 }

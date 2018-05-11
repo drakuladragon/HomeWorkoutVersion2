@@ -7,8 +7,6 @@ package com.example.nhtha.homeworkoutversion2.dto;
 public class CommentDto {
     private String authorID;
     private String postID;
-    private String authorName;
-    private String authorAvatar;
     private String commentDes;
 
     public String getCommentDes() {
@@ -17,22 +15,6 @@ public class CommentDto {
 
     public void setCommentDes(String commentDes) {
         this.commentDes = commentDes;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getAuthorAvatar() {
-        return authorAvatar;
-    }
-
-    public void setAuthorAvatar(String authorAvatar) {
-        this.authorAvatar = authorAvatar;
     }
 
     private String content;

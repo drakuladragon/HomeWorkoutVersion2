@@ -15,11 +15,12 @@ import android.widget.TextView;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.model.Remin;
-import com.example.nhtha.homeworkoutversion2.presenter.ReminderPresenter;
+import com.example.nhtha.homeworkoutversion2.presenter.utils.ReminderUtils;
 import com.example.nhtha.homeworkoutversion2.view.NotifiService;
 
 import java.util.Calendar;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -34,10 +35,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
     private Context context;
     private LayoutInflater inflater;
     private reportCallBackView callBackView;
+    private Realm realm;
 
-    public ReminderAdapter(Context context, RealmResults<Remin> reminders) {
+    public ReminderAdapter(Context context, RealmResults<Remin> reminders,Realm realm) {
         this.reminders = reminders;
         this.context = context;
+        this.realm = realm;
         inflater = LayoutInflater.from(context);
     }
 
@@ -54,12 +57,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
     @Override
     public void onBindViewHolder(ReminViewHolder holder, final int position) {
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        final int min = ReminderPresenter.getMinute(reminders.get(position).getTime());
-        final int hour = ReminderPresenter.getHour(reminders.get(position).getTime());
+        final int min = ReminderUtils.getMinute(reminders.get(position).getTime());
+        final int hour = ReminderUtils.getHour(reminders.get(position).getTime());
         final int id = position  + 1;
         final String date = reminders.get(position).getDate();
         holder.txtTime.setText(reminders.get(position).getTime());
-        holder.swtRemind.setChecked(ReminderPresenter.getChecked(reminders.get(position).getChecked()));
+        holder.swtRemind.setChecked(ReminderUtils.getChecked(reminders.get(position).getChecked()));
         holder.txtRepeat.setText(date);
         holder.imgDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +79,19 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
                 PendingIntent pendingIntent = PendingIntent.getService(context, 1, myIntent, 0);
 
                 if (isChecked){
-                    Remin remin = reminders.get(position);
-                    remin.setChecked(Remin.CHECKED);
-                    callBackView.onSwitchStateChange(remin);
+                    realm.beginTransaction();
+                    reminders.get(position).setChecked(Remin.CHECKED);
+                    realm.commitTransaction();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     calendar.set(Calendar.MINUTE, min);
                     calendar.set(Calendar.HOUR_OF_DAY, hour);
-
+                    calendar.set(Calendar.SECOND,0);
                     alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                 } else {
-                    Remin remin = reminders.get(position);
-                    remin.setChecked(Remin.NOT_CHECKED);
-                    callBackView.onSwitchStateChange(remin);
+                    realm.beginTransaction();
+                    reminders.get(position).setChecked(Remin.NOT_CHECKED);
+                    realm.commitTransaction();
                     alarmManager.cancel(pendingIntent);
                 }
 
@@ -126,6 +129,5 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminV
 
     public interface reportCallBackView {
         void onDiscardIconClicked(int position);
-        void onSwitchStateChange(Remin remin);
     }
 }
