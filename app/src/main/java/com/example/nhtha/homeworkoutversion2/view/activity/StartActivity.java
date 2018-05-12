@@ -285,6 +285,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         int count = getFragmentManager().getBackStackEntryCount();
         Log.d(TAG, "onBackPressed: " + count);
 
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            drawerLayout.closeDrawer(Gravity.LEFT);
+            return;
+        }
+
         if (count == 0) {
             super.onBackPressed();
         } else {

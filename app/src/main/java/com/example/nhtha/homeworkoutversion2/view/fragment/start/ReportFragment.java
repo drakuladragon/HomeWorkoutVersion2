@@ -138,7 +138,7 @@ public class ReportFragment extends Fragment {
 
         // set an alternative background color
         lineChart.setBackgroundColor(Color.WHITE);
-        lineChart.setNoDataText("thông số sẽ hiển thị tại đây");
+        lineChart.setNoDataText("You didn't take any workout, there no report");
         lineChart.setViewPortOffsets(0f, 0f, 0f, 0f);
 
         // add data

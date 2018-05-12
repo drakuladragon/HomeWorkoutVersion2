@@ -14,16 +14,20 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.nhtha.homeworkoutversion2.R;
 import com.example.nhtha.homeworkoutversion2.dto.UserDto;
 import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
+import com.example.nhtha.homeworkoutversion2.view.dialog.PasswordChangeDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,6 +62,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference databaseReference;
     private DatabaseReference userReference;
     private ProgressDialog myProgressDialog;
+
+    private ImageButton imgPopupMenu;
 
     private ImageView imgMenu;
 
@@ -101,9 +107,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         civAvatar = rootView.findViewById(R.id.civ_avatar);
         edtUsername = rootView.findViewById(R.id.edt_username);
         btnSave = rootView.findViewById(R.id.btn_save);
+        imgPopupMenu = rootView.findViewById(R.id.img_popup_menu);
 
         btnSave.setOnClickListener(this);
         civAvatar.setOnClickListener(this);
+        imgPopupMenu.setOnClickListener(this);
 
         myProgressDialog = new ProgressDialog(getContext());
 
@@ -136,10 +144,28 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 pickAvatar();
                 break;
 
+            case R.id.img_popup_menu:
+                ShowPopupMenu();
+                break;
+
             default:
                 break;
 
         }
+    }
+
+    private void ShowPopupMenu() {
+        PopupMenu menu = new PopupMenu(getContext(),imgPopupMenu);
+        menu.getMenuInflater().inflate(R.menu.menu,menu.getMenu());
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                PasswordChangeDialog passwordChangeDialog = new PasswordChangeDialog(getContext());
+                passwordChangeDialog.show();
+                return false;
+            }
+        });
+        menu.show();
     }
 
     private void pickAvatar() {

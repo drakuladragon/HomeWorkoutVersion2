@@ -93,20 +93,21 @@ public class PostOpenFragment extends Fragment implements View.OnClickListener,I
         txtPostContent = getView().findViewById(R.id.txt_post_content);
         imgPostImage = getView().findViewById(R.id.img_post_image);
         rlEdit = getView().findViewById(R.id.rl_edit);
-        rcvComment = getView().findViewById(R.id.rcv_comment_list);
+
 
         imageLoader = new ImageLoader(getContext(),post.getImageURL(),this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        rcvComment.setLayoutManager(layoutManager);
+//        rcvComment = getView().findViewById(R.id.rcv_comment_list);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//
+//        rcvComment.setLayoutManager(layoutManager);
 
         pullData();
 
-        commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>());
-
-        rcvComment.setAdapter(commentAdapter);
+//        commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>());
+////
+////        rcvComment.setAdapter(commentAdapter);
 
         rlEdit.setOnClickListener(this);
 

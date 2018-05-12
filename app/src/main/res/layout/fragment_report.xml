@@ -6,6 +6,8 @@
     android:background="@android:color/white"
     android:clickable="true"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     tools:ignore="InvalidId">
 
 
@@ -158,6 +160,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
                     android:layout_weight="2"
                     android:inputType="number"
                     android:id="@+id/edt_height"
@@ -197,6 +201,8 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
                     android:inputType="number"
                     android:id="@+id/edt_weight"
                     android:layout_weight="2"

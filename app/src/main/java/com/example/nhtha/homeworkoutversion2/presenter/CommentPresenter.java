@@ -97,7 +97,7 @@ public class CommentPresenter {
 
     }
 
-    public void loadCommentList(){
+    public void loadCommentList(final String postId){
         userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -108,7 +108,7 @@ public class CommentPresenter {
                     user.setName(userDto.getName());
                     user.setAvatar(userDto.getAvatar());
                     userList.add(user);
-                    loadCommentDtos();
+                    loadCommentDtos(postId);
                 }
             }
 
@@ -119,7 +119,7 @@ public class CommentPresenter {
         });
     }
 
-    private void loadCommentDtos(){
+    private void loadCommentDtos(final String postID){
         commentReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,15 +130,17 @@ public class CommentPresenter {
                     comment.setCommentID(snapshot.getKey());
                     comment.setCommentDes(commentDto.getCommentDes());
                     comment.setPostID(commentDto.getPostID());
-                    for (User user : userList){
-                        if (comment.getAuthorID().equals(user.getId())){
-                            comment.setAuthorAvatar(user.getAvatar());
-                            comment.setAuthorName(user.getName());
-                            break;
+                    if (commentDto.getPostID().equals(postID)){
+                        for (User user : userList){
+                            if (comment.getAuthorID().equals(user.getId())){
+                                comment.setAuthorAvatar(user.getAvatar());
+                                comment.setAuthorName(user.getName());
+                                break;
+                            }
                         }
+                        comments.add(comment);
+                        callBackView.onLoadSuccess(comments);
                     }
-                    comments.add(comment);
-                    callBackView.onLoadSuccess(comments);
                 }
             }
 

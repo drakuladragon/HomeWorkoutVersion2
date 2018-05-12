@@ -1,5 +1,6 @@
 package com.example.nhtha.homeworkoutversion2.view.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -19,7 +20,7 @@ import com.example.nhtha.homeworkoutversion2.R;
  * Created by nhtha on 27-Feb-18.
  */
 
-public class RemiderDialog extends android.app.Dialog {
+public class RemiderDialog extends Dialog {
 
     private TimePicker timePicker;
     private TextView txtNext;

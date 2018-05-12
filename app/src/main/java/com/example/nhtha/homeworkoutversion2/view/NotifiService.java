@@ -8,9 +8,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.nhtha.homeworkoutversion2.view.activity.LoginActivity;
+import com.example.nhtha.homeworkoutversion2.view.activity.StartActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,7 +85,7 @@ public class NotifiService extends Service {
             }
         }
 
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     @Override
@@ -95,22 +100,24 @@ public class NotifiService extends Service {
             String action = intent.getAction();
             switch (action) {
                 case PLAY:
-//                    Toast.makeText(context, "LET GO", Toast.LENGTH_SHORT).show();
-//                    Intent intent1 = new Intent(NotifiService.this, LoginActivity.class);
-//                    PendingIntent pendingIntent = PendingIntent.getActivity(NotifiService.this,
-//                            0,
-//                            intent1,
-//                            0);
-//                    try {
-//                        pendingIntent.send();
-//                    } catch (PendingIntent.CanceledException e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
+                    Toast.makeText(context, "LET GO", Toast.LENGTH_SHORT).show();
+                    Intent intent1 = new Intent(NotifiService.this, StartActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                            0,
+                            intent1,
+                            0);
+                    try {
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
+                    break;
 
                 case CLOSE:
-//                    Toast.makeText(context, "CLOSED", Toast.LENGTH_SHORT).show();
-//                    stopForeground(STOP_FOREGROUND_REMOVE);
+                    Toast.makeText(context, "CLOSED", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        stopForeground(STOP_FOREGROUND_REMOVE);
+                    }
                     break;
 
                 default:
@@ -118,5 +125,6 @@ public class NotifiService extends Service {
             }
         }
     }
+
 
 }

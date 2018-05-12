@@ -82,7 +82,7 @@ public class CommentFragment extends Fragment implements View.OnClickListener,Co
         edtComment = getView().findViewById(R.id.edt_comment);
         imgSend = getView().findViewById(R.id.img_send);
 
-        commentPresenter.loadCommentList();
+        commentPresenter.loadCommentList(postID);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
